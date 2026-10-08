@@ -26,10 +26,6 @@ Create a file under `Data`, call `AtlasMobs:RegisterZone(...)`, then list the fi
 
 Each mob record contains its marker number, NPC ID, English name, level range, creature type, reaction, elite flag, and normalized map coordinates.
 
-## Continuing development
-
-Read `AGENTS.md` for project rules and `HANDOFF.md` for the current implementation state and test checklist.
-
 ## License
 
 AtlasMobs is available under the [MIT License](LICENSE).
