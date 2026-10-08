@@ -1,0 +1,12 @@
+## Interface: 16001
+## Title: AtlasMobs
+## Notes: Numbered mob locations and leveling filters for the world map.
+## Author: AtlasMobs
+## Version: 1.0.1
+## SavedVariables: AtlasMobsDB
+
+Core.lua
+Data\SilverpineForest.lua
+UI.lua
+MapPins.lua
+Minimap.lua
