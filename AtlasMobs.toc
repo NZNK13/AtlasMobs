@@ -7,6 +7,9 @@
 
 Core.lua
 Data\SilverpineForest.lua
+Data\Barrens.lua
+Data\TirisfalGlades.lua
+Data\ThousandNeedles.lua
 UI.lua
 MapPins.lua
 Minimap.lua

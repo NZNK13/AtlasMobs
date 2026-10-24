@@ -254,15 +254,47 @@ local function CreateUI()
     }
     for _, button in ipairs(frame.filterButtons) do button:Refresh() end
 
-    AddText(frame, "Color limits", nil, "TOPLEFT", 16, -128)
+    frame.enabledOnlyCheck = CreateFrame("CheckButton", nil, frame, "UICheckButtonTemplate")
+    frame.enabledOnlyCheck:SetSize(20, 20)
+    frame.enabledOnlyCheck:SetPoint("TOPLEFT", 330, -92)
+    frame.enabledOnlyCheck:SetChecked(AtlasMobsDB.filters.enabledOnly)
+    AddText(frame.enabledOnlyCheck, "Enabled only", nil, "LEFT", 20, 0)
+    frame.enabledOnlyCheck:SetScript("OnClick", function(self)
+        AtlasMobsDB.filters.enabledOnly = self:GetChecked() and true or false
+        AtlasMobs:RefreshAll()
+    end)
+
+    frame.toggleAllButton = CreateFrame("Button", nil, frame, template)
+    frame.toggleAllButton:SetSize(94, 20)
+    frame.toggleAllButton:SetPoint("TOPLEFT", 330, -116)
+    if frame.toggleAllButton.SetBackdrop then
+        frame.toggleAllButton:SetBackdrop({ bgFile="Interface\\Tooltips\\UI-Tooltip-Background", edgeFile="Interface\\Tooltips\\UI-Tooltip-Border", edgeSize=10, insets={left=2,right=2,top=2,bottom=2} })
+        frame.toggleAllButton:SetBackdropColor(0.03, 0.03, 0.03, 0.95)
+        frame.toggleAllButton:SetBackdropBorderColor(0.55, 0.45, 0.25, 1)
+    end
+    frame.toggleAllButton.text = AddText(frame.toggleAllButton, "Select all", nil, "CENTER", 0, 0)
+    frame.toggleAllButton:SetScript("OnClick", function()
+        local zone = AtlasMobs:GetZone(AtlasMobs:GetCurrentMapID())
+        if not zone then return end
+        local allEnabled = true
+        for _, mob in ipairs(zone.mobs) do
+            if not AtlasMobs:IsMobEnabled(mob.id) then allEnabled = false; break end
+        end
+        for _, mob in ipairs(zone.mobs) do
+            AtlasMobsDB.enabledMobs[tostring(mob.id)] = not allEnabled
+        end
+        AtlasMobs:RefreshAll()
+    end)
+
+    AddText(frame, "Color limits", nil, "TOPLEFT", 16, -151)
     frame.thresholdEdits = {}
     local thresholdDefs = {{"Gray", "gray"}, {"Green", "green"}, {"Yellow", "yellow"}, {"Orange", "orange"}}
     for index, def in ipairs(thresholdDefs) do
         local x = ({90, 158, 236, 316})[index]
-        AddText(frame, def[1], nil, "TOPLEFT", x, -128)
+        AddText(frame, def[1], nil, "TOPLEFT", x, -151)
         local edit = MakeEdit(frame, 28, false)
         local editX = ({120, 198, 278, 360})[index]
-        edit:SetPoint("TOPLEFT", editX, -123)
+        edit:SetPoint("TOPLEFT", editX, -146)
         edit:SetMaxLetters(2)
         edit:SetText(AtlasMobsDB.thresholds[def[2]])
         frame.thresholdEdits[def[2]] = edit
@@ -282,7 +314,7 @@ local function CreateUI()
     end
 
     local header = CreateFrame("Frame", nil, frame)
-    header:SetPoint("TOPLEFT", 16, -160)
+    header:SetPoint("TOPLEFT", 16, -183)
     header:SetSize(390, 20)
     local headers = {{"Show",0},{"#",28},{"NPC ID",50},{"Name",103},{"Levels",253},{"Type",295},{"Skin",370}}
     for _, item in ipairs(headers) do
@@ -291,7 +323,7 @@ local function CreateUI()
     end
 
     local scroll = CreateFrame("ScrollFrame", "AtlasMobsScrollFrame", frame, "UIPanelScrollFrameTemplate")
-    scroll:SetPoint("TOPLEFT", 16, -182)
+    scroll:SetPoint("TOPLEFT", 16, -205)
     scroll:SetPoint("BOTTOMRIGHT", -44, 36)
     local content = CreateFrame("Frame", nil, scroll)
     content:SetSize(390, 1)
@@ -334,6 +366,15 @@ function AtlasMobs:RefreshUI()
     local mapID = self:GetCurrentMapID()
     local zone = self:GetZone(mapID)
     frame.zoneText:SetText(zone and zone.name or "Zone not supported")
+    if frame.toggleAllButton then
+        local allEnabled = zone and #zone.mobs > 0
+        if zone then
+            for _, mob in ipairs(zone.mobs) do
+                if not self:IsMobEnabled(mob.id) then allEnabled = false; break end
+            end
+        end
+        frame.toggleAllButton.text:SetText(allEnabled and "Clear all" or "Select all")
+    end
 
     local visible = {}
     if zone then
@@ -370,7 +411,7 @@ function AtlasMobs:RefreshUI()
     end
     for index = #visible + 1, #frame.rows do frame.rows[index]:Hide() end
     frame.scrollContent:SetHeight(math.max(1, #visible * 22))
-    self:SetStatus(zone and (#visible .. " mobs shown") or "Open Silverpine Forest on the map.")
+    self:SetStatus(zone and (#visible .. " mobs shown") or "Open a supported zone on the map.")
 end
 
 function AtlasMobs:Toggle()

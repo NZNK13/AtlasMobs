@@ -12,7 +12,7 @@ local defaults = {
     dockMapLeft = false,
     thresholds = { gray = -6, green = -3, yellow = 2, orange = 4 },
     enabledMobs = {},
-    filters = { mobType = "All", reaction = "All", relativeLevel = "All", rank = "All" },
+    filters = { mobType = "All", reaction = "All", relativeLevel = "All", rank = "All", enabledOnly = false },
     window = { point = "CENTER", relativePoint = "CENTER", x = 250, y = 0 },
     minimapAngle = 225,
 }
@@ -82,6 +82,7 @@ end
 
 function AtlasMobs:MobMatchesFilters(mob)
     local filters = AtlasMobsDB.filters
+    if filters.enabledOnly and not self:IsMobEnabled(mob.id) then return false end
     if filters.mobType ~= "All" and mob.mobType ~= filters.mobType then return false end
     if filters.reaction ~= "All" and mob.reaction ~= string.lower(filters.reaction) then return false end
     if filters.rank == "Elite" and not mob.elite then return false end

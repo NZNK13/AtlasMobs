@@ -7,10 +7,10 @@ AtlasMobs is a World of Warcraft Forever addon that displays numbered mob locati
 - Numbered spawn markers on the world map
 - Difficulty colors based on the mob's average level
 - Type, reaction, level, and rank filters
-- Per-mob visibility controls
+- Per-mob visibility controls with enabled-only and select-all options
 - Adjustable marker size, opacity, and window scale
 - Optional layout with the maximized world map docked to the left
-- Silverpine Forest data with 41 mobs and 2,060 spawn points
+- Silverpine Forest, The Barrens, Tirisfal Glades, and Thousand Needles data
 
 ## Installation
 
