@@ -10,7 +10,7 @@ AtlasMobs is a World of Warcraft Forever addon that displays numbered mob locati
 - Per-mob visibility controls with enabled-only and select-all options
 - Adjustable marker size, opacity, and window scale
 - Optional layout with the maximized world map docked to the left
-- Silverpine Forest, The Barrens, Tirisfal Glades, and Thousand Needles data
+- Silverpine Forest, The Barrens, Tirisfal Glades, Thousand Needles, Ashenvale, and Tanaris data
 
 ## Installation
 

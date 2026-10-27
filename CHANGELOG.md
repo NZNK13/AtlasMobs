@@ -7,6 +7,8 @@ All notable changes to AtlasMobs are documented in this file.
 - Added The Barrens data for WoW Forever.
 - Added Tirisfal Glades data for WoW Forever.
 - Added Thousand Needles data for WoW Forever.
+- Added Ashenvale data for WoW Forever.
+- Added Tanaris data for WoW Forever.
 - Added an enabled-only mob list filter.
 - Added a button to select or clear all mobs in the current zone.
 
